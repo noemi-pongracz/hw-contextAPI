@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Footer from "./components/footer/Footer";
+import AddForm from "./components/forms/addForm/AddForm";
+import EditForm from "./components/forms/editForm/EditForm";
+import Header from "./components/header/Header";
+import UserList from "./components/userList/UserList";
+import UserContextProvider from "./context/UserContext";
+
+const baseUrl = "http://localhost:3000";
+const headers = {
+  "Content-Type": "application/json;charset=utf-8",
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContextProvider>
+      <>
+        <Header />
+        <main className="main-content">
+          <UserList />
+          <AddForm />
+          <EditForm />
+          <Footer />
+        </main>
+      </>
+    </UserContextProvider>
   );
 }
 
