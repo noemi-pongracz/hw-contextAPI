@@ -2,7 +2,7 @@ import {useContext} from "react";
 import { UserContext } from "../../context/UserContext";
 
 function User({user}) {
-    const { setCurrentUserId, dispatch } = useContext(UserContext);
+    const { setCurrentUserId, users, setUsers } = useContext(UserContext);
 
     const fullName = user.firstName + ' ' + user.lastName;
     
@@ -11,10 +11,7 @@ function User({user}) {
     }
 
     const handleDelete = () => {
-        dispatch({
-            type: "DELETE_PERSON",
-            data: user
-        });
+        setUsers(users.filter((person) => person.id !== user.id));
     };
 
     return(

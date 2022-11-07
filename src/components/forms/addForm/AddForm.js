@@ -1,8 +1,9 @@
 import { useContext, useState, useRef } from "react";
 import { UserContext } from "../../../context/UserContext";
+import { v4 as uuidv4 } from "uuid";
 
 function AddForm() {
-  const { dispatch } = useContext(UserContext);
+  const { users, setUsers } = useContext(UserContext);
   const emptyUser = {
     firstName: "",
     lastName: "",
@@ -22,11 +23,11 @@ function AddForm() {
   const formEl = useRef(null);
 
   const sports = [
-    { id: 0, name: "edit-running", value: "running" },
-    { id: 1, name: "edit-cycling", value: "cycling" },
-    { id: 2, name: "edit-swimming", value: "swimming" },
-    { id: 3, name: "edit-walking", value: "walking" },
-    { id: 4, name: "edit-skiing", value: "skiing" },
+    { id: 0, name: "add-running", value: "running" },
+    { id: 1, name: "add-cycling", value: "cycling" },
+    { id: 2, name: "add-swimming", value: "swimming" },
+    { id: 3, name: "add-walking", value: "walking" },
+    { id: 4, name: "add-skiing", value: "skiing" },
   ];
 
   const isPartOfAddress = (fieldName) => {
@@ -59,10 +60,8 @@ function AddForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch({
-      type: "ADD_PERSON",
-      data: user,
-    });
+    const newUser = { id: uuidv4(), ...user };
+    setUsers([...users, newUser]);
     formEl.current.reset();
   };
 

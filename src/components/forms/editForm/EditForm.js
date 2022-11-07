@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../context/UserContext";
 
 function EditForm() {
-  const { users, currentUserId, setCurrentUserId, dispatch } =
+  const { users, setUsers, currentUserId, setCurrentUserId } =
     useContext(UserContext);
   const [disabled, setDisabled] = useState(true);
 
@@ -63,10 +63,12 @@ function EditForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch({
-      type: "EDIT_PERSON",
-      data: user,
-    });
+    setUsers(users.map((person) => {
+      if (person.id === currentUserId) {
+        return user;
+      }
+      return person;
+    }));
     setCurrentUserId(-1);
     setDisabled(true);
   };

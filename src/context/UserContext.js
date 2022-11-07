@@ -1,26 +1,7 @@
-import { createContext, useState, useReducer } from "react";
+import { createContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export const UserContext = createContext();
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "ADD_PERSON":
-      const newUser = { id: uuidv4(), ...action.data };
-      return [...state, newUser];
-    case "DELETE_PERSON":
-      return state.filter((person) => person.id !== action.data.id);
-    case "EDIT_PERSON":
-      return state.map((person) => {
-        if (person.id === action.data.id) {
-          return action.data;
-        }
-        return person;
-      });
-    default:
-      break;
-  }
-};
 
 const UserContextProvider = ({ children }) => {
   const initialUsers = [
@@ -101,12 +82,12 @@ const UserContextProvider = ({ children }) => {
     },
   ];
 
-  const [users, dispatch] = useReducer(reducer, initialUsers);
+  const [users, setUsers] = useState(initialUsers);
   const [currentUserId, setCurrentUserId] = useState(-1);
 
   return (
     <UserContext.Provider
-      value={{ users, dispatch, currentUserId, setCurrentUserId }}
+      value={{ users, setUsers, currentUserId, setCurrentUserId }}
     >
       {children}
     </UserContext.Provider>
